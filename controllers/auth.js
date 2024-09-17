@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
 
     await user.save();
 
-    const token = await generateJWT(user.id, user.name);
+    const token = await generateJWT(user.id, user.name, user.list);
 
     return res.status(201).json({
       ok: true,
@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const token = await generateJWT(user.id, user.name);
+    const token = await generateJWT(user.id, user.name,user.list);
 
     return res.status(200).json({
       ok: true,
@@ -76,11 +76,11 @@ const loginUser = async (req, res) => {
 };
 
 const renewToken = async (req, res) => {
-  const { id, name } = req;
+  const { id, name, list } = req;
+  const user = await User.findById(id).lean();
+  const token = await generateJWT(id, name, user.list);
 
-  const token = await generateJWT(id, name);
-
-  res.json({ ok: true, user: { _id: id, name }, token });
+  res.json({ ok: true, user: { _id: id, name, list: user.list }, token });
 };
 
 module.exports = { createUser, loginUser, renewToken };
