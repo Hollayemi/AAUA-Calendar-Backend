@@ -11,10 +11,11 @@ const validateJWT = (req, res, next) => {
   }
 
   try {
-    const { id, name } = jwt.verify(token, process.env.JWT_SECRET_KEY)
+    const { id, name, list } = jwt.verify(token, process.env.JWT_SECRET_KEY)
 
     req.id = id
     req.name = name;
+    req.list = list;
 
   } catch (error) {
     return res.status(401).json({

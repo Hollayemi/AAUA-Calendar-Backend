@@ -9,6 +9,7 @@ const {
   createEvent,
   updateEvent,
   deleteEvent,
+  toList
 } = require("../controllers/events");
 const {
   eventExistsById,
@@ -92,5 +93,12 @@ router.delete(
   ],
   deleteEvent
 );
+
+router.put(
+  "/to-list/:id/:action",
+  
+  [check("id", "Invalid event ID.").isMongoId(), validateFields],
+  toList
+)
 
 module.exports = router;

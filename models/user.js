@@ -15,6 +15,11 @@ const UserSchema = Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  list: {
+    type: Array,
+    default: [ { type: Schema.Types.ObjectId} ],
+    ref: "Event"
+  },
 });
 
 UserSchema.methods.toJSON = function () {
